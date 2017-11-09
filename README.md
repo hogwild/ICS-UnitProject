@@ -30,7 +30,7 @@ And, you can swith back to your master branch by
 
     $git checkout master
 
-Remember: If you switch to the master branch, then, in the Finder, you can only find the files belongs to the master branch. The files of the solutions branch are hidden by the git!
+#### Remember: If you switch to the master branch, then, in the Finder, you can only find the files belongs to the master branch. The files of the solutions branch are hidden by the git!
 
 
     
