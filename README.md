@@ -4,7 +4,7 @@
 
     $git clone [the URL]
 
-#### You can keep your versions by using "branch"
+## Manage your versions: 
 to create the branch on your local machine:
 
     $git checkout -b [a new branch name]
