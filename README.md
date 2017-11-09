@@ -17,5 +17,5 @@ download all branches from the remote:
 
     $git fetch --all
     
-
+#### The solutions can be found in the solutions branch.
 
