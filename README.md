@@ -13,8 +13,9 @@ change the current branch:
 
     $git checkout [branch name]
 
-get all the branch from the remote:
+download all branches from the remote:
 
     $git fetch --all
+    
 
 
