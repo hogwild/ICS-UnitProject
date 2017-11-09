@@ -24,7 +24,7 @@ Now, you can check the files in this branch by
 
     $ls
 
-You will be able to find the solution we provide for the unit project. You can also find them in the Finder.
+You will be able to see the solutions for the unit project. You can also find them in the Finder.
 
 And, you can swith back to your master branch by
 
