@@ -44,10 +44,29 @@ class Index:
                                     
     def search(self, term):
         msgs = []
-        if (term in self.index.keys()):
-            indices = self.index[term]
-            msgs = [(i, self.msgs[i]) for i in indices]
+        ##Here, term is a phrase containts a few words.
+        words = term.split()
+        indices = set(self.index[words.pop()])
+        while words:
+            ##Pick out those duplicated
+            indices.intersection_update(set(self.index[words.pop()])) 
+        for i in indices:
+            if term in self.msgs[i]: ## refine the indices with the term
+                msgs.append((i, self.msgs[i]))
         return msgs
+        
+#        terms = term.split()
+#        if terms[0] in self.index.keys():
+#            indices = self.index[terms[0]]
+#            for i in indices:
+#                if term in self.msgs[i]:
+#                    msgs.append((i, self.msgs[i]))
+#        return msgs
+#        msgs = []
+#        if (term in self.index.keys()):
+#            indices = self.index[term]
+#            msgs = [(i, self.msgs[i]) for i in indices]
+#        return msgs
 
 class PIndex(Index):
     def __init__(self, name):
@@ -91,5 +110,10 @@ if __name__ == "__main__":
     sonnets = PIndex("AllSonnets.txt")
     p3 = sonnets.get_poem(3)
     print(p3)
-    s_love = sonnets.search("love")
+    s_love = sonnets.search("love in")
     print(s_love)
+    s_look = sonnets.search("look in")
+    print(s_look)
+    s_look = sonnets.search("look into")
+    print(s_look)
+
