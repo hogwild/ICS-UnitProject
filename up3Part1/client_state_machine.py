@@ -72,7 +72,7 @@ class ClientSM:
                             
                 elif my_msg == 'who':
                     pass
-                            
+                    
                 elif my_msg[0] == 'c':
                     peer = my_msg[1:]
                     peer = peer.strip()
