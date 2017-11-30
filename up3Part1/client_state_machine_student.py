@@ -49,6 +49,8 @@ class ClientSM:
         self.peer = ''
 
     def proc(self, my_msg, peer_code, peer_msg):
+        # message from user is in my_msg, if it has an argument (e.g. "p 3")
+        # the the argument is in my_msg[1:]
         self.out_msg = ''
 #==============================================================================
 # Once logged in, do a few things: get peer listing, connect, search
@@ -69,58 +71,27 @@ class ClientSM:
                     self.out_msg += "Time is: " + time_in
                             
                 elif my_msg == 'who':
-                    mysend(self.s, M_LIST)
-                    logged_in = myrecv(self.s)
-                    self.out_msg += 'Here are all the users in the system:\n'
-                    self.out_msg += logged_in
-                            
+                    pass
+                    
                 elif my_msg[0] == 'c':
                     peer = my_msg[1:]
                     peer = peer.strip()
-                    if self.connect_to(peer) == True:
-                        self.state = S_CHATTING
-                        self.out_msg += 'Connect to ' + peer + '. Chat away!\n\n'
-                        self.out_msg += '-----------------------------------\n'
-                    else:
-                        self.out_msg += 'Connection unsuccessful\n'
+                    pass
                         
                 elif my_msg[0] == '?':
                     term = my_msg[1:].strip()
-                    mysend(self.s, M_SEARCH + term)
-                    search_rslt = myrecv(self.s)[1:].strip()
-                    if (len(search_rslt)) > 0:
-                        self.out_msg += search_rslt + '\n\n'
-                    else:
-                        self.out_msg += '\'' + term + '\'' + ' not found\n\n'
+                    pass
                         
                 elif my_msg[0] == 'p':
                     poem_idx = my_msg[1:].strip()
-                    mysend(self.s, M_POEM + poem_idx)
-                    poem = myrecv(self.s)[1:].strip()
-                    if (len(poem) > 0):
-                        self.out_msg += poem + '\n\n'
-                    else:
-                        self.out_msg += 'Sonnet ' + poem_idx + ' not found\n\n'
+                    pass
 
-                elif my_msg[0] == '?':
-                    term = my_msg[1:].strip()
-                    mysend(self.s, M_SEARCH + term)
-                    search_rslt = myrecv(self.s)[1:].strip()
-                    if (len(search_rslt)) > 0:
-                        self.out_msg += search_rslt + '\n\n'
-                    else:
-                        self.out_msg += '\'' + term + '\'' + ' not found\n\n'
                 else:
                     self.out_msg += menu
                     
             if len(peer_msg) > 0:
                 if peer_code == M_CONNECT:
-                    self.peer = peer_msg
-                    self.out_msg += 'Request from ' + self.peer + '\n'
-                    self.out_msg += 'You are connected with ' + self.peer 
-                    self.out_msg += '. Chat away!\n\n'
-                    self.out_msg += '------------------------------------\n'
-                    self.state = S_CHATTING
+                    pass
                     
 #==============================================================================
 # Start chatting, 'bye' for quit
@@ -133,15 +104,14 @@ class ClientSM:
                     self.disconnect()
                     self.state = S_LOGGEDIN
                     self.peer = ''
+            
             if len(peer_msg) > 0:    # peer's stuff, coming in
-                if peer_code == M_CONNECT:
-                    self.out_msg += "(" + peer_msg + " joined)\n"
-                else:
-                    self.out_msg += peer_msg
+                # when peer_msg is "bye", peer_code will be M_DISCONNECT
+                pass
 
             # I got bumped out
             if peer_code == M_DISCONNECT:
-                self.state = S_LOGGEDIN
+                pass
 
             # Display the menu again
             if self.state == S_LOGGEDIN:
@@ -154,3 +124,5 @@ class ClientSM:
             print_state(self.state)
             
         return self.out_msg
+
+

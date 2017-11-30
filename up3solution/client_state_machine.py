@@ -75,8 +75,7 @@ class ClientSM:
                     self.out_msg += logged_in
                             
                 elif my_msg[0] == 'c':
-                    peer = my_msg[1:]
-                    peer = peer.strip()
+                    peer = my_msg[1:].strip()
                     if self.connect_to(peer) == True:
                         self.state = S_CHATTING
                         self.out_msg += 'Connect to ' + peer + '. Chat away!\n\n'
@@ -101,15 +100,7 @@ class ClientSM:
                         self.out_msg += poem + '\n\n'
                     else:
                         self.out_msg += 'Sonnet ' + poem_idx + ' not found\n\n'
-
-                elif my_msg[0] == '?':
-                    term = my_msg[1:].strip()
-                    mysend(self.s, M_SEARCH + term)
-                    search_rslt = myrecv(self.s)[1:].strip()
-                    if (len(search_rslt)) > 0:
-                        self.out_msg += search_rslt + '\n\n'
-                    else:
-                        self.out_msg += '\'' + term + '\'' + ' not found\n\n'
+                        
                 else:
                     self.out_msg += menu
                     
@@ -127,13 +118,14 @@ class ClientSM:
 # This is event handling instate "S_CHATTING"
 #==============================================================================
         elif self.state == S_CHATTING:
-            if len(my_msg) > 0:     # my stuff going out
+            if len(my_msg) > 0:     # My stuff, going out
                 mysend(self.s, M_EXCHANGE + "[" + self.me + "] " + my_msg)
                 if my_msg == 'bye':
                     self.disconnect()
                     self.state = S_LOGGEDIN
                     self.peer = ''
-            if len(peer_msg) > 0:    # peer's stuff, coming in
+            if len(peer_msg) > 0:   # Peer's stuff, coming in
+                # New peer joins
                 if peer_code == M_CONNECT:
                     self.out_msg += "(" + peer_msg + " joined)\n"
                 else:
